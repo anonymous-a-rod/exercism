@@ -1,21 +1,31 @@
 class Attendee
   def initialize(height)
-    raise 'Implement the Attendee#initialize method'
-  end
-
-  def height
-    raise 'Implement the Attendee#height method'
-  end
-
-  def pass_id
-    raise 'Implement the Attendee#pass_id method'
+    @height = height
   end
 
   def issue_pass!(pass_id)
-    raise 'Implement the Attendee#issue_pass! method'
+    @pass_id = pass_id
   end
 
   def revoke_pass!
-    raise 'Implement the Attendee#revoke_pass! method'
+    @pass_id = nil
   end
+
+  def has_pass?
+    !pass_id.nil?
+  end
+
+  def fits_ride?(ride_minimum_height)
+    height >= ride_minimum_height
+  end
+
+  def allowed_to_ride?(ride_minimum_height)
+    fits_ride?(ride_minimum_height) && has_pass?
+  end
+
+  private
+
+  attr_reader :height, :pass_id
 end
+
+puts Attendee.new(100).has_pass?

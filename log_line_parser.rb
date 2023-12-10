@@ -31,33 +31,26 @@ class LogLineParser
   end
 
   def message
-    line.gsub(log_level_regex, '').strip
+    @message ||= line.match(/\[.*\]:\s*(.+)/)[1].strip
   end
 
   def log_level
-    formatted_log_level.gsub(/[\[\]:]/, '').downcase
+    @log_level ||= line.match(/\[([^]]\w+)\]/)[1].downcase
   end
 
   def reformat
-    "#{message} (#{log_level})"
+    @reformat ||= "#{message} (#{log_level})"
   end
 
   private
 
   attr_accessor :line
-
-  def formatted_log_level
-    line.match(log_level_regex).to_s
-  end
-
-  def log_level_regex
-    @log_level_regex ||= /\[.*\]:/
-  end
 end
 
 puts LogLineParser.new('[ERROR]: Invalid operation').message
 puts LogLineParser.new('[INFO]: Invalid operation').message
 puts LogLineParser.new('[WARNING]: Invalid operation').message
+p LogLineParser.new("[WARNING]:   \tTimezone not set  \r\n").message
 
 puts LogLineParser.new('[ERROR]: Invalid operation').log_level
 puts LogLineParser.new('[INFO]: Invalid operation').log_level

@@ -31,11 +31,11 @@ class LogLineParser
   end
 
   def message
-    remove_log_level.strip
+    line.gsub(log_level_regex, '').strip
   end
 
   def log_level
-    line[log_level_start, log_level_length].downcase
+    formatted_log_level.gsub(/[\[\]:]/, '').downcase
   end
 
   def reformat
@@ -46,24 +46,12 @@ class LogLineParser
 
   attr_accessor :line
 
-  def remove_log_level
-    line.gsub(/\[(ERROR|WARNING|INFO)\]:/,"")
+  def formatted_log_level
+    line.match(log_level_regex).to_s
   end
 
-  def log_level_start
-    opening_bracket + 1
-  end
-
-  def log_level_length
-    closing_bracket - opening_bracket - 1
-  end
-
-  def opening_bracket
-    line.index('[')
-  end
-
-  def closing_bracket
-    line.index(']')
+  def log_level_regex
+    @log_level_regex ||= /\[.*\]:/
   end
 end
 

@@ -49,27 +49,15 @@ module Tournament
   def self.calc_stats
     @matches.each do |match|
       outcome = match[2]
-      win(match) if outcome == "win"
-      loss(match) if outcome == "loss"
+      winner(match, outcome) if (outcome == "win" || outcome == "loss")
       draw(match) if outcome == "draw"
     end
   end
 
-  def self.win(match)
-    winner = match[0]
-    loser = match[1]
-
-    @teams_stats[winner][:mp] += 1
-    @teams_stats[winner][:w] += 1
-    @teams_stats[winner][:p] += 3
-
-    @teams_stats[loser][:mp] += 1
-    @teams_stats[loser][:l] += 1
-  end
-
-  def self.loss(match)
-    loser = match[0]
-    winner = match[1]
+  def self.winner(match, outcome)
+    win = outcome == "win"
+    winner = win ? match[0] : match[1]
+    loser = win ? match[1] : match[0]
 
     @teams_stats[winner][:mp] += 1
     @teams_stats[winner][:w] += 1
@@ -103,6 +91,7 @@ module Tournament
     end
   end
 end
+
 
 input = "Allegoric Alaskans;Blithering Badgers;win\n
 Devastating Donkeys;Courageous Californians;draw\n

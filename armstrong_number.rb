@@ -1,10 +1,10 @@
 module ArmstrongNumbers
   def self.include?(number)
-    numbers = number.to_s.split('')
-    total = 0
-    numbers.each { |num| total += (num.to_i**numbers.length) }
-    number == total
+    digits ||= number.digits
+    exp ||= digits.length
+    number == digits.sum { |digit| digit**exp }
   end
 end
 
 puts ArmstrongNumbers.include?(9474)
+puts ArmstrongNumbers.include?(10)

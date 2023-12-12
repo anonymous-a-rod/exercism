@@ -1,0 +1,1 @@
+p [1, 2, 3].permutation.all? { |a, b, c| a < b + c }

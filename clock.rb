@@ -1,31 +1,28 @@
 class Clock
-  attr_accessor :hour, :minute
+  MINUTES_PER_HOUR = 60
+  MINUTES_PER_DAY = 1440
 
   def initialize(hour: 0, minute: 0)
-    @hour = (hour + minute / 60) % 24
-    @minute = minute % 60
+    @minute = (minute + hour * MINUTES_PER_HOUR) % MINUTES_PER_DAY     
   end
 
   def to_s
-    "%02d:%02d" % [hour, minute]
+    '%02d:%02d' % minute.divmod(60)
   end
 
   def +(other)
-    @hour = (hour + other.hour + ((minute + other.minute) / 60)) % 24
-    @minute = (minute + other.minute) % 60
-    to_s
+    Clock.new minute: minute + other.minute
   end
 
   def -(other)
-    @hour = (hour - other.hour + ((minute - other.minute).to_f / 60).floor) % 24
-    @minute = (minute - other.minute) % 60
-    to_s
+    Clock.new minute: minute - other.minute
   end
 
   def ==(other)
-    hour == other.hour && minute == other.minute
+    minute == other.minute
   end
-end
 
-clock = Clock.new(hour: 10, minute: 0)
-p (clock + Clock.new(minute: 3)).to_s
+  protected
+
+  attr_reader :minute
+end

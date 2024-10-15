@@ -26,4 +26,4 @@ def lose(power_pellet_active, touching_ghost):
     return touching_ghost and not power_pellet_active
 
 def win(eaten_all_dots, power_pellet_active, touching_ghost):
-    return (eaten_all_dots and power_pellet_active) and not touching_ghost
+    return eaten_all_dots and not lose(power_pellet_active, touching_ghost)

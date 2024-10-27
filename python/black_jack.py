@@ -76,11 +76,7 @@ def is_blackjack(card_one, card_two):
     3.  '2' - '10' = numerical value.
     """
 
-    if (value_of_card(card_one) == 10 and card_two is 'A') or (value_of_card(card_two) == 10 and card_one is 'A'):
-        return True
-    else:
-        return False
-
+    return ((value_of_card(card_one) == 10 and card_two is 'A') or (value_of_card(card_two) == 10 and card_one is 'A'))
 
 def can_split_pairs(card_one, card_two):
     """Determine if a player can split their hand into two hands.
